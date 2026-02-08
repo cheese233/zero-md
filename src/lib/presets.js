@@ -10,8 +10,21 @@ export const STYLES = {
   MARKDOWN_LIGHT: link(jsdelivr('github-markdown-css@5/github-markdown-light.min.css')),
   MARKDOWN_DARK: link(jsdelivr('github-markdown-css@5/github-markdown-dark.min.css')),
   KATEX: link(jsdelivr('katex@0/dist/katex.min.css')),
+  SHIKI: `
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .shiki,
+      .shiki span {
+        color: var(--shiki-dark) !important;
+        background-color: var(--shiki-dark-bg) !important;
+        font-style: var(--shiki-dark-font-style) !important;
+        font-weight: var(--shiki-dark-font-weight) !important;
+        text-decoration: var(--shiki-dark-text-decoration) !important;
+      }
+    }
+  </style>`;
   preset(theme = '') {
-    const { HOST, MARKDOWN, MARKDOWN_LIGHT, MARKDOWN_DARK, KATEX } = this
+    const { HOST, MARKDOWN, MARKDOWN_LIGHT, MARKDOWN_DARK, KATEX, SHIKI } = this
     const get = (/** @type {string} */ sheets) => `${HOST}${sheets}${KATEX}`
     switch (theme) {
       case 'light':
@@ -19,7 +32,7 @@ export const STYLES = {
       case 'dark':
         return get(MARKDOWN_DARK)
       default:
-        return get(MARKDOWN)
+        return get(MARKDOWN + SHIKI)
     }
   }
 }
