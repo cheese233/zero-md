@@ -10,16 +10,16 @@
 A vanilla markdown-to-html web component based on
 [Custom Elements V1 specs](https://www.w3.org/TR/custom-elements/) to load and display an external
 MD file. Under the hood, it uses [`marked`](https://github.com/markedjs/marked) for super-fast
-markdown transformation, and [`highlight.js`](https://github.com/highlightjs/highlight.js) for
-lightning-quick syntax highlighting - automagically rendering into its own self-contained shadow DOM
-container, while encapsulating implementation details into one embarrassingly easy-to-use package.
+markdown transformation, and [`Shiki`](https://shiki.style/) for lightning-quick syntax
+highlighting - automagically rendering into its own self-contained shadow DOM container, while
+encapsulating implementation details into one embarrassingly easy-to-use package.
 
 Featuring:
 
 - [x] Math rendering via [`KaTeX`](https://github.com/KaTeX/KaTeX)
 - [x] [`Mermaid`](https://github.com/mermaid-js/mermaid) diagrams
-- [x] Syntax highlighting via [`highlight.js`](https://github.com/highlightjs/highlight.js)
-- [x] Language detection for un-hinted code blocks
+- [x] Syntax highlighting via [`Shiki`](https://shiki.style/)
+- [x] Graceful highlighting fallback for un-hinted code blocks
 - [x] Hash-link scroll handling
 - [x] FOUC prevention
 - [x] Auto re-render on input changes

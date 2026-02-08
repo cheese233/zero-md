@@ -67,12 +67,12 @@ test.describe('feature tests', () => {
   })
 
   test('js is highlighted', async ({ page }) => {
-    await expect(page.locator('.hljs.language-js .hljs-string')).toHaveText(`'hello world!'`)
+    await expect(page.locator('pre.shiki code')).toContainText(`console.log('hello world!')`)
   })
 
   test('unhinted code block is highlighted', async ({ page }) => {
-    await expect(page.locator('[class="hljs"] .hljs-string')).toHaveText(
-      `'The sum of {0} and {1} is {2}'`
+    await expect(page.locator('pre.shiki code').nth(1)).toContainText(
+      `print('The sum of {0} and {1} is {2}'.format(num1, num2, sum))`
     )
   })
 
