@@ -22,7 +22,7 @@ export const STYLES = {
         text-decoration: var(--shiki-dark-text-decoration) !important;
       }
     }
-  </style>`;
+  </style>`,
   preset(theme = '') {
     const { HOST, MARKDOWN, MARKDOWN_LIGHT, MARKDOWN_DARK, KATEX, SHIKI } = this
     const get = (/** @type {string} */ sheets) => `${HOST}${sheets}${KATEX}`
