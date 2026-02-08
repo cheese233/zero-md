@@ -179,7 +179,7 @@ customElements.define('zero-md', class extends ZeroMd {
   async load() {
     await super.load({
       marked: () => new Marked(), // self-hosted
-      hljs: () => import('path/to/lib'), // change CDN url
+      shiki: () => import('path/to/lib'), // change CDN url
       ...
     })
   }

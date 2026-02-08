@@ -19,16 +19,16 @@
 A vanilla markdown-to-html web component based on
 [Custom Elements V1 specs](https://www.w3.org/TR/custom-elements/) to load and display an external
 MD file. Under the hood, it uses [`marked`](https://github.com/markedjs/marked) for super-fast
-markdown transformation, and [`highlight.js`](https://github.com/highlightjs/highlight.js) for
-lightning-quick syntax highlighting - automagically rendering into its own self-contained shadow DOM
-container, while encapsulating implementation details into one embarrassingly easy-to-use package.
+markdown transformation, and [`Shiki`](https://shiki.style/) for lightning-quick syntax
+highlighting - automagically rendering into its own self-contained shadow DOM container, while
+encapsulating implementation details into one embarrassingly easy-to-use package.
 
 Featuring:
 
 - Math rendering via [`KaTeX`](https://github.com/KaTeX/KaTeX)
 - [`Mermaid`](https://github.com/mermaid-js/mermaid) diagrams
-- Syntax highlighting via [`highlight.js`](https://github.com/highlightjs/highlight.js)
-- Language detection for un-hinted code blocks
+- Syntax highlighting via [`Shiki`](https://shiki.style/)
+- Graceful highlighting fallback for un-hinted code blocks
 - Hash-link scroll handling
 - FOUC prevention
 - Auto re-render on input changes
@@ -146,13 +146,6 @@ styles.
 
     <!-- Github markdown styles (light/dark) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css" />
-
-    <!-- Highlightjs Github theme (light) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github.min.css" />
-
-    <!-- Highlightjs Github theme (prefers dark) -->
-    <link rel="stylesheet" media="(prefers-color-scheme:dark)" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css" />
-
     <!-- KaTeX styles (needed for math) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
 
@@ -176,7 +169,7 @@ To override defaults, supply your own style template.
     </style>
     <!-- Or your own stylesheets with `<link>` tags -->
     <link rel="stylesheet" href="markdown-styles.css" />
-    <link rel="stylesheet" href="highlight-styles.css" />
+    <link rel="stylesheet" href="code-styles.css" />
   </template>
 </zero-md>
 ```
@@ -211,7 +204,7 @@ To append styles **after** the default template (or prepend **before**), set `da
         color: red;
       }
     </style>
-    <link rel="stylesheet" href="highlight-styles.css" />
+    <link rel="stylesheet" href="code-styles.css" />
     <style>
       code {
         background: yellow;
@@ -245,12 +238,12 @@ diagram rendering via `katex` and `mermaidjs` respectively.
 
 The following extensions are loaded by default.
 
-| Extension                                                                              | Description                                                                                     |
-| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [`marked-base-url`](https://github.com/markedjs/marked-base-url)                       | Sets the base url relative to `src` - this allows nested `md` files to work.                    |
-| [`marked-highlight`](https://github.com/markedjs/marked-highlight)                     | Prepares syntax highlighting via [`highlight.js`](https://github.com/highlightjs/highlight.js). |
-| [`marked-gfm-heading-id`](https://github.com/markedjs/marked-gfm-heading-id)           | Adds Github-styled element `id`s to headings.                                                   |
-| [`marked-alert`](https://github.com/bent10/marked-extensions/tree/main/packages/alert) | Adds Github-styled [alerts](https://github.com/orgs/community/discussions/16925).               |
+| Extension                                                                              | Description                                                                       |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [`marked-base-url`](https://github.com/markedjs/marked-base-url)                       | Sets the base url relative to `src` - this allows nested `md` files to work.      |
+| [`marked-shiki`](https://github.com/bent10/marked-extensions/tree/main/packages/shiki) | Prepares syntax highlighting via [`Shiki`](https://shiki.style/).                 |
+| [`marked-gfm-heading-id`](https://github.com/markedjs/marked-gfm-heading-id)           | Adds Github-styled element `id`s to headings.                                     |
+| [`marked-alert`](https://github.com/bent10/marked-extensions/tree/main/packages/alert) | Adds Github-styled [alerts](https://github.com/orgs/community/discussions/16925). |
 
 ### Math
 

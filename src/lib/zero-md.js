@@ -3,7 +3,7 @@ import ZeroMdBase from './zero-md-base.js'
 import katexExtension from './katex-extension.js'
 import { STYLES, LOADERS } from './presets.js'
 
-let hljsHoisted
+let shikiHoisted
 let mermaidHoisted
 let katexHoisted
 let uid = 0
@@ -16,10 +16,10 @@ export default class ZeroMd extends ZeroMdBase {
     const {
       marked,
       markedBaseUrl,
-      markedHighlight,
+      markedShiki,
       markedGfmHeadingId,
       markedAlert,
-      hljs,
+      shiki,
       mermaid,
       katex,
       katexOptions = { nonStandard: true, throwOnError: false }
@@ -30,7 +30,7 @@ export default class ZeroMd extends ZeroMdBase {
       markedBaseUrl(),
       markedGfmHeadingId(),
       markedAlert(),
-      markedHighlight()
+      markedShiki()
     ])
     this.marked = modules[0]
     this.setBaseUrl = modules[1]
@@ -41,33 +41,28 @@ export default class ZeroMd extends ZeroMdBase {
     this.marked.use(
       modules[2](),
       modules[3](),
-      {
-        ...modules[4]({
-          async: true,
-          highlight: async (code, lang) => {
-            if (lang === 'mermaid') {
-              if (!mermaidHoisted) {
-                mermaidHoisted = await mermaid()
-                mermaidHoisted.initialize({ startOnLoad: false })
-              }
-              const { svg } = await mermaidHoisted.render(`mermaid-svg-${uid++}`, code)
-              return svg
+      modules[4]({
+        highlight: async (code, lang = '') => {
+          if (lang === 'mermaid') {
+            if (!mermaidHoisted) {
+              mermaidHoisted = await mermaid()
+              mermaidHoisted.initialize({ startOnLoad: false })
             }
-            if (lang === 'math') return `<pre class="math">${await parseKatex(code, true)}</pre>`
-            if (!hljsHoisted) hljsHoisted = await hljs()
-            return hljsHoisted.getLanguage(lang)
-              ? hljsHoisted.highlight(code, { language: lang }).value
-              : hljsHoisted.highlightAuto(code).value
+            const { svg } = await mermaidHoisted.render(`mermaid-svg-${uid++}`, code)
+            return svg
           }
-        }),
-        renderer: {
-          code: ({ text, lang }) => {
-            if (lang === 'mermaid') return `<div class="mermaid">${text}</div>`
-            if (lang === 'math') return text
-            return `<pre><code class="hljs${lang ? ` language-${lang}` : ''}">${text}\n</code></pre>`
-          }
+          if (lang === 'math') return `<pre class="math">${await parseKatex(code, true)}</pre>`
+          if (!shikiHoisted) shikiHoisted = await shiki()
+          return shikiHoisted.codeToHtml(code, {
+            lang: lang || 'txt',
+            themes: {
+              light: 'github-light',
+              dark: 'github-dark'
+            },
+            defaultColor: false
+          })
         }
-      },
+      }),
       {
         ...katexExtension(katexOptions),
         walkTokens: async (token) => {

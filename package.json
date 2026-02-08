@@ -50,7 +50,7 @@
     "customelements",
     "markdown-to-html",
     "marked",
-    "highlightjs",
+    "shiki",
     "katex",
     "mermaid"
   ]
