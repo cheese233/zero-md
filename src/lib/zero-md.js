@@ -22,7 +22,8 @@ export default class ZeroMd extends ZeroMdBase {
       shiki,
       mermaid,
       katex,
-      katexOptions = { nonStandard: true, throwOnError: false }
+      katexOptions = { nonStandard: true, throwOnError: false },
+      shikiOptions = { themes: { light: 'github-light', dark: 'github-dark' }}
     } = { ...LOADERS, ...loaders }
     this.template = STYLES.preset()
     const modules = await Promise.all([
@@ -42,7 +43,7 @@ export default class ZeroMd extends ZeroMdBase {
       modules[2](),
       modules[3](),
       modules[4]({
-        highlight: async (code, lang = '') => {
+        highlight: async (code, lang = '', props) => {
           if (lang === 'mermaid') {
             if (!mermaidHoisted) {
               mermaidHoisted = await mermaid()
@@ -54,11 +55,9 @@ export default class ZeroMd extends ZeroMdBase {
           if (lang === 'math') return `<pre class="math">${await parseKatex(code, true)}</pre>`
           if (!shikiHoisted) shikiHoisted = await shiki()
           return shikiHoisted.codeToHtml(code, {
-            lang: lang || 'txt',
-            themes: {
-              light: 'github-light',
-              dark: 'github-dark'
-            }
+            lang: lang || 'text',
+            meta: { __raw: props.join(' ') },
+            ...shikiOptions
           })
         }
       }),
