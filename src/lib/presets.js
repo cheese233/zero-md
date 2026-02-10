@@ -1,5 +1,5 @@
 const jsdelivr = (/** @type {string} */ repo) => `https://cdn.jsdelivr.net/npm/${repo}`
-const link = (/** @type {string} */ href, /** @type {string|undefined} */ attrs) =>
+const link = (/** @type {string} */ href, /** @type {string|undefined} */ attrs = undefined) =>
   `<link rel="stylesheet" href="${href}"${attrs ? ` ${attrs}` : ''}>`
 const load = async (/** @type {string} */ url, name = 'default') =>
   (await import(/* @vite-ignore */ url))[name]
