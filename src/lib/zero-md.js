@@ -8,7 +8,7 @@ let mermaidHoisted
 let katexHoisted
 let uid = 0
 
-export const ZeroMdFuncs = {
+export const ZeroMdMixin = (Base) => class extends Base {
   async load(loaders = {}) {
       const {
         marked,
@@ -70,7 +70,7 @@ export const ZeroMdFuncs = {
           }
         }
       )
-    },
+    }
 
     /** @param {import('./zero-md-base.js').ZeroMdRenderObject} _obj */
     async parse({ text, baseUrl }) {
@@ -79,8 +79,4 @@ export const ZeroMdFuncs = {
     }
 }
 
-const ZeroMd = class extends ZeroMdBase {};
-
-Object.assign(ZeroMd.prototype, ZeroMdFuncs);
-
-export default ZeroMd;
+export default class ZeroMd extends ZeroMdMixin(ZeroMdBase) {};
